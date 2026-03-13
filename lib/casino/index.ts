@@ -1,3 +1,4 @@
+import type { Game, GameMetaData } from '@/types';
 import { requireEnv } from '@/utils';
 
 const brandSlugs = ['betmgm', 'borgata', 'wof', 'partycasino'] as const;
@@ -93,5 +94,18 @@ export function fetchGames(
     request.headers.set('user-agent', requireEnv('MOBILE_UA'));
   }
 
-  return fetch(request);
+  return fetch(request, {
+    next: {
+      revalidate: 300, // cache response for 5 minutes
+    },
+  });
+}
+
+export function metadataToGame({ sid, game, name, provider }: GameMetaData): Game {
+  return {
+    id: sid.slice(4),
+    game,
+    name,
+    provider,
+  };
 }
