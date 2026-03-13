@@ -37,29 +37,21 @@ export async function GET(req: NextRequest) {
       m: mobileOnly.map(metadataToGame),
     };
 
-    return new Response(JSON.stringify(data), {
-      headers: { 'content-type': 'application/json;charset=utf-8' },
-    });
+    return Response.json(data);
   } catch (err) {
     if (err instanceof Error) {
       if (err.message === 'Invalid brand or state' || err.message === 'Invalid search params') {
-        return new Response(JSON.stringify({ error: err.message }), {
-          status: 400,
-          headers: { 'content-type': 'application/json;charset=utf-8' },
-        });
+        return Response.json({ error: err.message }, { status: 400 });
       }
 
       if (err.message === 'Unable to fetch data from the API') {
-        return new Response(JSON.stringify({ error: err.message }), {
-          status: 500,
-          headers: { 'content-type': 'application/json:charset=utf-8' },
-        });
+        return Response.json({ error: err.message }, { status: 500 });
       }
+
+      console.log('Uncaught exception:', err);
+      return Response.json({ error: 'Something went wrong' }, { status: 500 });
     } else {
-      return new Response(JSON.stringify({ error: 'Something went wrong' }), {
-        status: 500,
-        headers: { 'content-type': 'application/json:charset=utf-8' },
-      });
+      return Response.json({ error: 'Something went wrong' }, { status: 500 });
     }
   }
 }
