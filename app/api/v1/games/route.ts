@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
     return Response.json(data);
   } catch (err) {
     if (err instanceof Error) {
-      if (err.message === 'Invalid brand or state' || err.message === 'Invalid search params') {
+      if (err.message === 'Invalid brand or state' || err.message === 'Invalid search param(s)') {
         return Response.json({ error: err.message }, { status: 400 });
       }
 
