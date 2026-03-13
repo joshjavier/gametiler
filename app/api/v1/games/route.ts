@@ -22,6 +22,11 @@ export async function GET(req: NextRequest) {
     ]);
 
     if (responses.some((res) => !res.ok)) {
+      console.log(
+        'Response status:',
+        `${responses[0].status} ${responses[0].statusText} (D),`,
+        `${responses[1].status} ${responses[1].statusText} (M)`,
+      );
       throw new Error('Unable to fetch data from the API');
     }
 
