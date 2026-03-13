@@ -3,6 +3,8 @@ import type { NextRequest } from 'next/server';
 import { fetchGames, metadataToGame } from '@/lib/casino';
 import type { GameMetaData } from '@/types';
 
+// Use the Edge runtime to avoid CORS errors
+export const runtime = 'edge';
 // Set location to a US region to avoid CORS errors
 export const preferredRegion = 'iad1';
 
