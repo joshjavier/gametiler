@@ -1,0 +1,827 @@
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .shell {
+    display: flex;
+    flex-direction: column;
+    height: 680px;
+    border: 0.5px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    background: var(--color-background-primary);
+    font-family: var(--font-sans);
+    font-size: 13px;
+  }
+
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 9px 14px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    background: var(--color-background-primary);
+    flex-shrink: 0;
+  }
+  .wordmark {
+    display: flex;
+    align-items: baseline;
+    gap: 7px;
+  }
+  .wm-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    letter-spacing: -0.2px;
+  }
+  .wm-sub {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+  }
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .status {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #1d9e75;
+    flex-shrink: 0;
+  }
+  .brand-pill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 9px;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    background: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    cursor: pointer;
+  }
+
+  .banner {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: #faeeda;
+    border-bottom: 0.5px solid #fac775;
+    font-size: 11px;
+    color: #633806;
+    flex-shrink: 0;
+  }
+
+  .body {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .left {
+    width: 300px;
+    flex-shrink: 0;
+    border-right: 0.5px solid var(--color-border-tertiary);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  .search-box {
+    padding: 10px 10px 8px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    flex-shrink: 0;
+  }
+  .search-wrap {
+    position: relative;
+  }
+  .s-icon {
+    position: absolute;
+    left: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-tertiary);
+  }
+  .search-input {
+    width: 100%;
+    padding: 7px 9px 7px 29px;
+    font-size: 12px;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    background: var(--color-background-secondary);
+    color: var(--color-text-primary);
+    outline: none;
+  }
+  .search-input::placeholder {
+    color: var(--color-text-tertiary);
+  }
+
+  .results-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 4px 6px;
+  }
+  .r-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5px 7px;
+    border-radius: var(--border-radius-md);
+    cursor: pointer;
+  }
+  .r-item:hover,
+  .r-item.hi {
+    background: var(--color-background-secondary);
+  }
+  .r-name {
+    font-size: 12px;
+    color: var(--color-text-primary);
+  }
+  .r-name em {
+    font-style: normal;
+    font-weight: 500;
+    color: #185fa5;
+  }
+  .r-prov {
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    margin-top: 1px;
+  }
+  .add-icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 6px;
+    border: 0.5px solid var(--color-border-secondary);
+    background: var(--color-background-primary);
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .r-item:hover .add-icon,
+  .r-item.hi .add-icon {
+    opacity: 1;
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .sel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    background: var(--color-background-secondary);
+    flex-shrink: 0;
+  }
+  .sel-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .sel-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+  .count-badge {
+    font-size: 10px;
+    font-weight: 500;
+    padding: 1px 6px;
+    border-radius: 10px;
+    background: #e6f1fb;
+    color: #0c447c;
+  }
+  .clear-btn {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-danger);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 3px 7px;
+    border-radius: var(--border-radius-md);
+  }
+  .clear-btn:hover {
+    background: var(--color-background-danger);
+  }
+
+  .tbl-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) 100px minmax(0, 1.6fr) 72px;
+    padding: 5px 12px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    background: var(--color-background-secondary);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+  }
+
+  .tbl-body {
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .tbl-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) 100px minmax(0, 1.6fr) 72px;
+    padding: 6px 12px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    align-items: center;
+  }
+  .tbl-row:last-child {
+    border-bottom: none;
+  }
+  .tbl-row:hover {
+    background: var(--color-background-secondary);
+  }
+
+  .c-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    word-break: break-word;
+  }
+  .c-prov {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+  }
+  .c-slug {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .slug-tag {
+    font-size: 10px;
+    font-family: var(--font-mono);
+    background: var(--color-background-secondary);
+    color: var(--color-text-secondary);
+    padding: 1px 5px;
+    border-radius: 4px;
+    border: 0.5px solid var(--color-border-tertiary);
+    display: inline-block;
+    word-break: break-all;
+  }
+  .c-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 3px;
+  }
+  .iBtn {
+    width: 22px;
+    height: 22px;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: 6px;
+    background: var(--color-background-primary);
+    color: var(--color-text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .iBtn:hover {
+    background: var(--color-background-secondary);
+  }
+  .iBtn.del {
+    color: var(--color-text-danger);
+  }
+  .iBtn.del:hover {
+    background: var(--color-background-danger);
+    border-color: var(--color-border-danger);
+  }
+
+  .overflow-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 12px;
+    border-top: 0.5px solid var(--color-border-tertiary);
+    background: var(--color-background-secondary);
+    font-size: 11px;
+    color: var(--color-text-tertiary);
+    flex-shrink: 0;
+    gap: 6px;
+  }
+  .overflow-num {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: #e6f1fb;
+    color: #0c447c;
+  }
+
+  .output-dock {
+    border-top: 0.5px solid var(--color-border-tertiary);
+    background: var(--color-background-primary);
+    flex-shrink: 0;
+  }
+  .output-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 12px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .tabs {
+    display: flex;
+  }
+  .tab {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    padding: 8px 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -0.5px;
+  }
+  .tab.active {
+    color: var(--color-text-primary);
+    border-bottom-color: var(--color-text-primary);
+  }
+  .output-actions {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    background: var(--color-background-secondary);
+    padding: 4px 9px;
+    cursor: pointer;
+  }
+  .copy-btn.primary {
+    background: #e6f1fb;
+    color: #0c447c;
+    border-color: #b5d4f4;
+    font-weight: 500;
+  }
+
+  .preview-scroll {
+    max-height: 140px;
+    overflow-y: auto;
+    padding: 12px 12px 10px;
+    background: #fff;
+  }
+  .preview-head {
+    font-size: 12px;
+    font-weight: 700;
+    color: #111;
+    margin-bottom: 8px;
+    font-family: Arial, sans-serif;
+  }
+  .tiles-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+  .tile {
+    width: 70px;
+    height: 70px;
+    flex-shrink: 0;
+    border: 3px solid #fff;
+    outline: 1px solid #ddd;
+    border-radius: 2px;
+    overflow: hidden;
+    background: var(--color-background-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .tile-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    font-weight: 500;
+    text-align: center;
+    padding: 2px;
+    line-height: 1.2;
+  }
+
+  .collapsed-preview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: #fff;
+    border-top: 0.5px solid var(--color-border-tertiary);
+  }
+  .collapsed-info {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+  }
+  .collapsed-info span {
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+  .expand-btn {
+    font-size: 11px;
+    font-weight: 500;
+    color: #185fa5;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+</style>
+
+<div class="shell">
+  <div class="topbar">
+    <div class="wordmark">
+      <span class="wm-title">Game Tiles</span>
+      <span class="wm-sub">Assemble</span>
+    </div>
+    <div class="topbar-right">
+      <div class="status">
+        <div class="dot"></div>
+        3,965 games
+      </div>
+      <div class="brand-pill">
+        MC NJ
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <path
+            d="M2 3.5L5 6.5L8 3.5"
+            stroke="currentColor"
+            stroke-width="1.2"
+            stroke-linecap="round"
+          />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="banner">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+      <circle cx="6" cy="6" r="5.25" stroke="#BA7517" stroke-width="1" />
+      <rect x="5.4" y="5" width="1.2" height="4" rx="0.4" fill="#BA7517" />
+      <circle cx="6" cy="3.5" r="0.7" fill="#BA7517" />
+    </svg>
+    Maintenance mode — a new version is in the works. Stay tuned!
+    <button
+      style="
+        margin-left: auto;
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: #854f0b;
+        font-size: 11px;
+        font-weight: 500;
+        padding: 0;
+      "
+    >
+      Dismiss
+    </button>
+  </div>
+
+  <div class="body">
+    <div class="left">
+      <div class="search-box">
+        <div class="search-wrap">
+          <svg
+            class="s-icon"
+            width="13"
+            height="13"
+            viewBox="0 0 14 14"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.4"
+          >
+            <circle cx="6" cy="6" r="4.5" />
+            <path d="M9.5 9.5L12.5 12.5" stroke-linecap="round" />
+          </svg>
+          <input class="search-input" placeholder="Search by game name…" value="book" readonly />
+        </div>
+      </div>
+      <div class="results-list">
+        <div class="r-item hi">
+          <div>
+            <div class="r-name"><em>Book</em> of Dead</div>
+            <div class="r-prov">Play'n GO</div>
+          </div>
+          <div class="add-icon">
+            <svg
+              width="9"
+              height="9"
+              viewBox="0 0 10 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M5 2v6M2 5h6" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="r-item">
+          <div>
+            <div class="r-name"><em>Book</em> of Oz</div>
+            <div class="r-prov">NextGen Gaming</div>
+          </div>
+          <div class="add-icon">
+            <svg
+              width="9"
+              height="9"
+              viewBox="0 0 10 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M5 2v6M2 5h6" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="r-item">
+          <div>
+            <div class="r-name"><em>Book</em> of Ra Deluxe</div>
+            <div class="r-prov">Novomatic</div>
+          </div>
+          <div class="add-icon">
+            <svg
+              width="9"
+              height="9"
+              viewBox="0 0 10 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M5 2v6M2 5h6" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="r-item">
+          <div>
+            <div class="r-name"><em>Book</em> of Fallen</div>
+            <div class="r-prov">Pragmatic Play</div>
+          </div>
+          <div class="add-icon">
+            <svg
+              width="9"
+              height="9"
+              viewBox="0 0 10 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M5 2v6M2 5h6" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="r-item">
+          <div>
+            <div class="r-name"><em>Book</em> of Gold</div>
+            <div class="r-prov">Playson</div>
+          </div>
+          <div class="add-icon">
+            <svg
+              width="9"
+              height="9"
+              viewBox="0 0 10 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M5 2v6M2 5h6" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="r-item">
+          <div>
+            <div class="r-name"><em>Book</em> of Kingdoms</div>
+            <div class="r-prov">Pragmatic Play</div>
+          </div>
+          <div class="add-icon">
+            <svg
+              width="9"
+              height="9"
+              viewBox="0 0 10 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M5 2v6M2 5h6" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="r-item">
+          <div>
+            <div class="r-name"><em>Book</em> of Shadows</div>
+            <div class="r-prov">Nolimit City</div>
+          </div>
+          <div class="add-icon">
+            <svg
+              width="9"
+              height="9"
+              viewBox="0 0 10 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M5 2v6M2 5h6" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="r-item">
+          <div>
+            <div class="r-name"><em>Book</em> of Atem</div>
+            <div class="r-prov">Red Tiger</div>
+          </div>
+          <div class="add-icon">
+            <svg
+              width="9"
+              height="9"
+              viewBox="0 0 10 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            >
+              <path d="M5 2v6M2 5h6" stroke-linecap="round" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="sel-header">
+        <div class="sel-left">
+          <span class="sel-title">Selected games</span>
+          <span class="count-badge">97</span>
+        </div>
+        <button class="clear-btn">Clear all</button>
+      </div>
+
+      <div class="tbl-header">
+        <div>Name</div>
+        <div>Provider</div>
+        <div>Slug</div>
+        <div style="text-align: right">Actions</div>
+      </div>
+
+      <div class="tbl-body" id="tbl-body"></div>
+
+      <div class="overflow-row">
+        <span>Showing 8 of 97 —</span>
+        <span class="overflow-num">+89 more</span>
+        <span style="color: var(--color-text-tertiary)">scroll to see all</span>
+      </div>
+
+      <div class="output-dock">
+        <div class="output-bar">
+          <div class="tabs">
+            <button class="tab active">Preview</button>
+            <button class="tab">Code</button>
+          </div>
+          <div class="output-actions">
+            <button class="copy-btn primary" id="copy-btn">
+              <svg
+                width="11"
+                height="11"
+                viewBox="0 0 12 12"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.3"
+              >
+                <rect x="4" y="4" width="7" height="7" rx="1" />
+                <path d="M2 8V2h6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              Copy HTML
+            </button>
+          </div>
+        </div>
+
+        <div class="collapsed-preview" id="preview-collapsed">
+          <div class="collapsed-info">
+            <span>97 tiles</span> ready — preview collapsed at this scale
+          </div>
+          <button class="expand-btn" id="expand-btn">Show preview</button>
+        </div>
+
+        <div id="preview-full" style="display: none">
+          <div class="preview-scroll">
+            <div class="preview-head">Click Tiles Below To Play Eligible Games:</div>
+            <div class="tiles-wrap" id="tiles-wrap"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const games = [
+    { name: 'Straight Cash', prov: 'GAMEIOM', slug: 'gameiomstraightcash', mobile: '' },
+    {
+      name: "Fishin' Loaded Pots Gold Blitz Extreme",
+      prov: 'DGC',
+      slug: 'eusmdfipogoldblitex',
+      mobile: 'eusmdfipogoldblitexmobile',
+    },
+    { name: 'Fa Fa Babies 2', prov: 'Evolution', slug: 'LiveDealernefafababies2jp', mobile: '' },
+    { name: 'Peaky Blinders 2', prov: 'WhiteHat', slug: 'whitehatpeakyblinders2', mobile: '' },
+    { name: 'Starburst', prov: 'NetEnt', slug: 'starburst', mobile: 'starburst_mobile' },
+    { name: "Gonzo's Quest", prov: 'NetEnt', slug: 'gonzosquest', mobile: 'gonzosquesttouch' },
+    { name: 'Book of Dead', prov: "Play'n GO", slug: 'bookofdeadmgc', mobile: '' },
+    { name: 'Wolf Gold', prov: 'Pragmatic Play', slug: 'wolfgold', mobile: 'wolfgoldmobile' },
+  ];
+
+  const colors = [
+    ['#EEEDFE', '#534AB7'],
+    ['#E1F5EE', '#085041'],
+    ['#FAEEDA', '#633806'],
+    ['#FAECE7', '#712B13'],
+    ['#E6F1FB', '#0C447C'],
+    ['#EAF3DE', '#27500A'],
+    ['#FBEAF0', '#72243E'],
+    ['#F1EFE8', '#444441'],
+  ];
+
+  const tbody = document.getElementById('tbl-body');
+  const tilesWrap = document.getElementById('tiles-wrap');
+
+  games.forEach((g, i) => {
+    const [bg, tc] = colors[i % colors.length];
+    const row = document.createElement('div');
+    row.className = 'tbl-row';
+    const slugs = g.mobile
+      ? `<span class="slug-tag">${g.slug}</span><span class="slug-tag">${g.mobile}</span>`
+      : `<span class="slug-tag">${g.slug}</span>`;
+    row.innerHTML = `
+    <div class="c-name">${g.name}</div>
+    <div class="c-prov">${g.prov}</div>
+    <div class="c-slug">${slugs}</div>
+    <div class="c-actions">
+      <div class="iBtn" title="Copy smartlink">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M4.5 7.5l3-3M3 6.5L1.5 8A2.121 2.121 0 004.5 11L6 9.5M9 5.5l1.5-1.5A2.121 2.121 0 007.5 1L6 2.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="iBtn del" title="Remove">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3"><path d="M2 3h8M5 3V2h2v1M4.5 3v6M7.5 3v6M3 3l.5 7h5L9 3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>`;
+    tbody.appendChild(row);
+
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.innerHTML = `<div class="tile-inner" style="background:${bg};color:${tc};">${g.name}</div>`;
+    tilesWrap.appendChild(tile);
+  });
+
+  document.getElementById('expand-btn').addEventListener('click', function () {
+    const full = document.getElementById('preview-full');
+    const collapsed = document.getElementById('preview-collapsed');
+    if (full.style.display === 'none') {
+      full.style.display = 'block';
+      collapsed.style.display = 'none';
+    } else {
+      full.style.display = 'none';
+      collapsed.style.display = 'flex';
+    }
+  });
+
+  document.getElementById('copy-btn').addEventListener('click', function () {
+    this.textContent = 'Copied!';
+    setTimeout(() => {
+      this.innerHTML = `<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3"><rect x="4" y="4" width="7" height="7" rx="1"/><path d="M2 8V2h6" stroke-linecap="round" stroke-linejoin="round"/></svg> Copy HTML`;
+    }, 1500);
+  });
+</script>

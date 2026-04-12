@@ -3,6 +3,20 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Design tokens */
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f4f4f5;
+  --color-background-danger: #fef2f2;
+  --color-text-primary: #111111;
+  --color-text-secondary: #52525b;
+  --color-text-tertiary: #a1a1aa;
+  --color-text-danger: #dc2626;
+  --color-border-tertiary: #e4e4e7;
+  --color-border-secondary: #d4d4d8;
+  --color-border-danger: #fca5a5;
+  --border-radius-lg: 8px;
+  --border-radius-md: 6px;
 }
 
 @theme inline {
@@ -12,12 +26,12 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+/* @media (prefers-color-scheme: dark) { */
+/*   :root { */
+/*     --background: #0a0a0a; */
+/*     --foreground: #ededed; */
+/*   } */
+/* } */
 
 body {
   position: relative;
