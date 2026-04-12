@@ -8,7 +8,7 @@ import styles from './app.module.css';
 
 export function AppShell() {
   return (
-    <div className={styles.shell}>
+    <div className="flex h-screen flex-col bg-(--color-background-primary) font-[13px]">
       <Topbar />
       <Banner />
       <div className={styles.body}>
