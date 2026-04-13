@@ -8,10 +8,10 @@ import styles from './app.module.css';
 
 export function AppShell() {
   return (
-    <div className="flex h-screen flex-col bg-(--color-background-primary) font-[13px]">
+    <div className="flex h-screen flex-col overflow-hidden bg-(--color-background-primary) font-[13px]">
       <Topbar />
       <Banner />
-      <div className={styles.body}>
+      <div className="flex flex-1 overflow-hidden">
         <SearchPanel />
         <div className={styles.right}>
           <SelectedPanel />
