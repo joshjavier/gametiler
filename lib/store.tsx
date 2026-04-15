@@ -70,7 +70,8 @@ export function StoreProvider({ brand, state, children }: StoreProviderProps) {
 
     dispatch({ type: 'FETCH_START' });
 
-    fetch(`/api/v1/games?b=${brand}&s=${state}`)
+    const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL ?? '';
+    fetch(`${baseUrl}/api/v1/games?b=${brand}&s=${state}`)
       .then((res) => {
         if (!res.ok) {
           return res.json().then((data: { error?: string }) => {
