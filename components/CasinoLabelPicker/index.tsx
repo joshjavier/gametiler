@@ -2,7 +2,7 @@
 
 import { Select } from '@base-ui/react';
 import { CaretDownIcon, CheckIcon } from '@phosphor-icons/react';
-import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 
 const casinoLabels = [
   { label: 'MC NJ', value: 'betmgm:nj' },
@@ -18,10 +18,21 @@ const casinoLabels = [
 ];
 
 export function CasinoLabelPicker() {
-  const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Derive selected value from current path (e.g. "/betmgm/nj" → "betmgm:nj")
+  const segments = pathname.split('/').filter(Boolean);
+  const selectedLabel = segments.length === 2 ? `${segments[0]}:${segments[1]}` : null;
+
+  function handleValueChange(value: string | null) {
+    if (!value) return;
+    const [brand, state] = value.split(':');
+    router.push(`/${brand}/${state}`);
+  }
 
   return (
-    <Select.Root items={casinoLabels} value={selectedLabel} onValueChange={setSelectedLabel}>
+    <Select.Root items={casinoLabels} value={selectedLabel} onValueChange={handleValueChange}>
       <Select.Trigger className="flex min-w-28 cursor-pointer items-center justify-between gap-1.25 rounded-(--border-radius-md) border-[0.5px] border-(--color-border-secondary) bg-(--color-background-secondary) px-2.25 py-1 text-[12px] font-medium text-(--color-text-primary)">
         <Select.Value placeholder="Select a label" className="data-placeholder:opacity-60" />
         <Select.Icon className="data-popup-open:rotate-180">
