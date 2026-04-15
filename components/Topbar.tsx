@@ -1,4 +1,4 @@
-import { BrandPicker } from './BrandPicker';
+import { CasinoLabelPicker } from './CasinoLabelPicker';
 import { Status } from './Status';
 
 export function Topbar() {
@@ -12,7 +12,7 @@ export function Topbar() {
 
       <div className="flex items-center gap-2.5">
         <Status />
-        <BrandPicker />
+        <CasinoLabelPicker />
       </div>
     </div>
   );
