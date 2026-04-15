@@ -1,3 +1,5 @@
+import { StoreProvider } from '@/lib/store';
+
 import { Banner } from './Banner';
 import { OutputDock } from './OutputDock';
 import { SearchPanel } from './SearchPanel';
@@ -11,16 +13,18 @@ interface AppShellProps {
 
 export function AppShell({ brand, state }: AppShellProps) {
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-(--color-background-primary) font-[13px]">
-      <Topbar />
-      <Banner />
-      <div className="flex flex-1 overflow-hidden">
-        <SearchPanel />
-        <div className="flex flex-1 flex-col">
-          <SelectedPanel />
-          <OutputDock />
+    <StoreProvider brand={brand} state={state}>
+      <div className="flex h-screen flex-col overflow-hidden bg-(--color-background-primary) font-[13px]">
+        <Topbar />
+        <Banner />
+        <div className="flex flex-1 overflow-hidden">
+          <SearchPanel />
+          <div className="flex flex-1 flex-col">
+            <SelectedPanel />
+            <OutputDock />
+          </div>
         </div>
       </div>
-    </div>
+    </StoreProvider>
   );
 }

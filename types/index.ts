@@ -12,3 +12,7 @@ export interface Game {
   name: string;
   provider: string;
 }
+
+export interface SelectedGame extends Game {
+  mobileSlug?: string;
+}
