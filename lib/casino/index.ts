@@ -94,7 +94,7 @@ export function fetchGames(
     request.headers.set('user-agent', requireEnv('MOBILE_UA'));
   }
 
-  return fetch(request);
+  return fetch(request, { cache: 'no-store' });
 }
 
 export function metadataToGame({ sid, game, name, provider }: GameMetaData): Game {
