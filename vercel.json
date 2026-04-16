@@ -1,0 +1,9 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/v1/games/route.ts": {
+      "regions": ["iad1"],
+      "functionFailoverRegions": ["sfo1"]
+    }
+  }
+}
