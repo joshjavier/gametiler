@@ -94,11 +94,7 @@ export function fetchGames(
     request.headers.set('user-agent', requireEnv('MOBILE_UA'));
   }
 
-  return fetch(request, {
-    next: {
-      revalidate: 300, // cache response for 5 minutes
-    },
-  });
+  return fetch(request);
 }
 
 export function metadataToGame({ sid, game, name, provider }: GameMetaData): Game {
