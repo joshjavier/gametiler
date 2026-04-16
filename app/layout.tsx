@@ -3,6 +3,10 @@ import { Geist, Geist_Mono } from 'next/font/google';
 
 import './globals.css';
 
+// Configuration to avoid CORS errors
+export const runtime = 'edge';
+export const preferredRegion = 'home';
+
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
