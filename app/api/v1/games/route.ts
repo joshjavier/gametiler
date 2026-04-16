@@ -6,9 +6,7 @@ import type { GameMetaData } from '@/types';
 // Use the Edge runtime to avoid CORS errors
 export const runtime = 'edge';
 // Set location to a US region to avoid CORS errors
-export const preferredRegion = 'iad1';
-
-export const dynamic = 'force-dynamic';
+export const preferredRegion = ['iad1'];
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
